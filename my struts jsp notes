@@ -1,0 +1,266 @@
+
+
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+
+1. If there any action messages 
+
+	<logic:messagesPresent message="true">
+		<html:messages id="message">
+			<bean:write name="message"/>
+		</html:messages>
+	</logic:messagesPresent>
+	
+	to 
+	
+	<s:if test="hasActionMessages()">
+		<s:actionmessage />
+	</s:if>
+	
+
+2. If there any action errors
+
+	<logic:messagesPresent >
+		<html:errors/>
+	</logic:messagesPresent>
+
+	to
+	
+	<s:if test="hasActionErrors()">
+		<s:actionerror />
+	</s:if>
+	
+3. taglib declartion
+
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+	
+4. 	<html:text property="text" />
+	
+	to 
+	
+	<s:textfield name="text"/>
+	
+5. checkbox 
+
+	<html:checkbox property="getBackOfficeCktInfo" value="true"/>
+	
+	to 
+	
+	<s:checkbox name="getBackOfficeCktInfo" fieldValue="true" />
+	
+	
+6. Populating hidden feild from session bean's property
+
+
+	<jsp:useBean id="loginForm" class="com.incedo.struts1basic.form.LoginForm" scope="session"/>
+	<html:hidden name="loginForm" property="userName" />
+	
+	to 
+
+	<s:hidden value="%{#session.loginForm.userName}" name="userName"/>
+	
+7. Populating select feild from session bean's property (which is a list or array or enum)
+
+	<jsp:useBean id="audioConfSrForm" class="com.verizon.ipsm.gui.audioconf.sr.AudioConfServiceReqForm" scope="session"/>
+	<html:select name="audioConfSrForm" property="refOrderID">
+   		<html:options name="audioConfSrForm" property="orderNumbersList"/>
+   	</html:select>
+			
+	to 
+	
+	<s:select list="#session.audioConfSrForm.orderNumbersList" name="refOrderID" />
+	
+	
+	----select with label and key--------
+	
+	<html:select name="uccaasServiceReqForm" property="vmForm.dataCenterTemplate">
+        <html:optionsCollection name="uccaasServiceReqForm" property="vmForm.dataCenterTemplatesPicklist" label="display" value="id"/>
+    </html:select>
+	
+	to 
+	
+	<s:select list="#session.uccaasServiceReqForm.vmForm.dataCenterTemplatesPicklist" name="vmForm.dataCenterTemplate" listKey="display" listValue="id"/>
+      
+	
+8. logic:match from the session bean's property
+
+	<jsp:useBean id="audioConfSrForm" class="com.verizon.ipsm.gui.audioconf.sr.AudioConfServiceReqForm" scope="session"/>
+	<logic:match name="audioConfSrForm" property="overideBackOfficeInfo" value="true">
+		
+	</logic:match>
+	
+	to 
+	
+	<s:if test="#session.audioConfSrForm.overideBackOfficeInfo">
+		
+	</s:if>
+	
+	
+
+	
+9. bean write from a session object's property
+
+	<bean:write name="audioConfSrForm" property="pipRouterName"/>
+	
+	to 
+	
+	<s:property value="#session.audioConfSrForm.pipRouterName"/>
+	
+	
+10. getting value from enum for comparision
+
+	<logic:notEqual value="<%=Encapsulation.PPP.toString()%>" name="pnSrINETForm" property="peEncapsulation">
+	
+	to 
+	
+	<s:if test="#session.pnSrINETForm.peEncapsulation != @com.verizon.ipsm.valueobj.Encapsulation@PPP">
+	
+10. 10.Replace
+
+ <html:radio name="imvServiceReqForm"
+            property="addressPriorityStr"
+            value="<%=BackupPriority.PRIMARY.toString()%>" /><%=BackupPriority.PRIMARY.toString()%>
+    <html:radio name="imvServiceReqForm"
+            property="addressPriorityStr"
+            value="<%=BackupPriority.SECONDARY.toString()%>" /><%=BackupPriority.SECONDARY.toString()%>
+			
+with
+
+<s:radio name="imvServiceReqForm" 
+			list="{@com.verizon.ipsm.valueobj.BackupPriority@PRIMARY,@com.verizon.ipsm.valueobj.BackupPriority@SECONDARY}"/>
+			
+11. Logic tag replacement 
+	
+	<logic:equal value="<%=Encapsulation.PPP.toString()%>" name="pnSrINETForm" property="peEncapsulation">            
+
+	</logic:equal>
+	
+	to 
+	
+	<s:if test="@packagename.Encapsulation@PPP == #session.pnSrINETForm.peEncapsulation">
+	
+	
+	
+12. Not empty check for session bean's property
+
+	<logic:notEmpty name="clusterServiceReqForm" property="clusterForm.prevCucxAppsPassword"> </logic:notEmpty>
+     
+	 to 
+	 
+	<s:if test="#session.clusterServiceReqForm.clusterForm.prevCucxAppsPassword != null || #session.clusterServiceReqForm.clusterForm.prevCucxAppsPassword.length != 0">
+	
+	 != null || #session..length != 0
+	 == null || #session..length == 0 
+	 
+13. Html link with parameter 
+
+	<html:link action="editDefaultParams">
+        <html:param name="method" value="queryDefaultParams" />
+        Network
+    </html:link>
+
+	to
+	
+	<s:url action="editDefaultParams"  >
+	  <s:param name="name" value = "20"/>Network
+	</s:url>
+	
+14. iterator changes
+
+	<logic:iterate name="clusterServiceReqForm" property="wizardStackAsList" id="wizardPage" type="com.verizon.ipsm.gui.common.WizardPage" indexId="index_i">
+		 
+		 <bean:write name="wizardPage" />
+		 index_i
+		 
+	</logic:iterate>
+	
+	to 
+
+	<s:iterator value="#session.clusterServiceReqForm.wizardStackAsList" var="wizardPage" status="i">	
+	
+		<s:property value="#wizardPage.property" />
+		 #i.index
+	
+	</s:iterator>
+	
+15. Custome radio button
+
+   <html:radio name="cloudVccServiceReqForm" property="multicastingSite" disabled="true" value="H"/><b>Hub</b>&nbsp;
+   <html:radio name="cloudVccServiceReqForm" property="multicastingSite" disabled="true" value="R"/><b>Remote</b>&nbsp;
+   <html:radio name="cloudVccServiceReqForm" property="multicastingSite" disabled="true" value="N"/><b>None</b>
+   
+   to 
+   
+	<s:radio name="multicastingSite" list="#{'H':'Hub','R':'Remote','N':'None'}" />
+
+16. if OGNL object required inside a javascript function.
+
+	onclick="return confirmRemoveTunnel(this.form,'<%=index_i.toString()%>');"
+	
+	to
+
+	onclick="return confirmRemoveTunnel(this.form,'<s:property value="#index_i.index"/>');"
+	
+17. Accessing scriplet object in struts tag
+	
+	 <%
+  String[] colors = {"red", "green", "blue"};
+  %>
+
+  <%=colors[i.intValue()]%>
+  
+  to 
+
+   	 <%
+  String[] colors = {"red", "green", "blue"};
+  pageContext.setAttribute("colors",colors);
+  %>
+   
+ row is==  <s:property value="%{#attr.colors[#i.index]}"/>
+ 
+ 
+ 
+18. Accessing struts object inside scriptlet
+
+	<s:iterator value="{'A','B'}" var="str">
+	
+	<% 
+	
+	
+	ActionContext.getContext().get("str");
+	
+	 %>
+
+
+		 
+19. Multibox 
+
+	<html:multibox name="unitForm" property="eservices">
+		<bean:write name="service"/>
+	</html:multibox>
+	
+	to
+	
+	<s:iterator var="row" value="%{unitForm.eservices}">
+		<input type="checkbox" name="unitForm.checked"  value="${row.service}" <s:property value="%{unitForm.checked.contains(#row.service)?'checked="checked"':''}"/>/>    
+	</s:iterator>
+	
+20. <tiles:insert attribute="header" />
+
+	to 
+
+	<tiles:insertAttribute name="header"/>
+
+21. <tiles:insert definition="baseLayout"></tiles:insert>
+
+		to 
+		
+	<tiles:insertDefinition name="baseLayout"/>
+	
+22. 
+	<%@taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+
+	to 
+	
+	<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
