@@ -1,0 +1,80 @@
+
+Restful webservices :
+===================
+
+1)REST is an architectural style.
+
+2)REST Abbreviation : 
+				REST stands for REpresentational State Transfer 
+				
+3)SOAP is a protocol.				
+
+4)Abbreviation : 
+				SOAP stands for Simple Object Access Protocol.
+				
+5)REST can use SOAP web services because it is a concept and can use any protocol like HTTP, SOAP.
+
+6)SOAP uses services interfaces to expose the business logic.
+
+7)REST uses URI to expose business logic.
+
+8)JAX-WS is the java API for SOAP web services.
+
+9)JAX-RS is the java API for RESTful web services.
+
+10)SOAP permits XML data format only.
+
+11)REST permits different data format such as Plain text, HTML, XML, JSON etc.
+
+
+
+A)SOA : 
+		1) it is a design pattern 
+		
+		2) SOA : Service Oriented Architecture
+		
+B)		Service Connections :
+		The figure given below illustrates the service oriented architecture
+		
+
+								Message Consumer    --------> service Request   ---------------->    Message Provider
+	(service consumer )  or		Message Consumer	<-------- service Response ----------------->    Message Provider		or  (service provider)
+				
+				The service connection is understandable to both service consumer and service provider.
+				
+C) JAX-RS: 
+			for RESTful web services. 
+			There are mainly 2 implementation currently in use for creating JAX-RS application:
+			1)Jersey  
+			2)RESTeasy.				
+			
+			
+			
+			
+			
+			Annotation	Description
+				Path			It identifies the URI path. It can be specified on class or method.
+				PathParam		represents the parameter of the URI path.
+				GET				specifies method responds to GET request.
+				POST			specifies method responds to POST request.
+				PUT				specifies method responds to PUT request.
+				HEAD			specifies method responds to HEAD request.
+				DELETE			specifies method responds to DELETE request.
+				OPTIONS			specifies method responds to OPTIONS request.
+				FormParam		represents the parameter of the form.
+				QueryParam		represents the parameter of the query string of an URL.
+				HeaderParam		represents the parameter of the header.
+				CookieParam		represents the parameter of the cookie.
+				Produces		defines media type for the response such as XML, PLAIN, JSON etc. It defines the media type that the methods of a resource class or MessageBodyWriter can produce.
+				Consumes		It defines the media type that the methods of a resource class or MessageBodyReader can produce.
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
