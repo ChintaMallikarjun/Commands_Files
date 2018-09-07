@@ -1,0 +1,7 @@
+
+javascript selfoinvoking function or construtctor
+
+(function(){})();
+
+
+javascript inbuilt objects
